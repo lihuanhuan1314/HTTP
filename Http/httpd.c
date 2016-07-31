@@ -271,6 +271,7 @@ if(get_line(client,buf,sizeof(buf)-1)<0){
 	return (void*)-1;
 }
 //GET / HTTP/1.1
+//获取方法
 int i=0;
 int j=0;
 while(!isspace(buf[j])&&i<sizeof(method)-1&&j<sizeof(buf)){
@@ -280,6 +281,7 @@ while(!isspace(buf[j])&&i<sizeof(method)-1&&j<sizeof(buf)){
 }
 
 //GET && POST
+//检查方法
 if(strcasecmp(method,"GET")&&(strcasecmp(method,"POST"))){
 //	return_errno_client();
 	return (void*)-1;
@@ -292,13 +294,14 @@ if(strcasecmp(method,"POST")==0){
 while(isspace(buf[j])&&j<sizeof(buf)){
 	++j;
 }
+//获取路径，先要越过空格
 i=0;
 while(!isspace(buf[j])&&i<sizeof(url)-1&&j<sizeof(buf)){
 	url[i]=buf[j];
 	++i;
 	++j;
 }
-
+//分析url，路径和参数分开
 if(strcasecmp(method,"GET")==0){
 	query_string=url;
 	while(*query_string!='?'&&*query_string!='\0'){
